@@ -11,7 +11,7 @@ using TestReact.Data;
 namespace TestReact.Migrations
 {
     [DbContext(typeof(MazeContext))]
-    partial class ToDoItemContextModelSnapshot : ModelSnapshot
+    partial class MazeContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -22,16 +22,13 @@ namespace TestReact.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("TestReact.Models.ToDoItem", b =>
+            modelBuilder.Entity("TestReact.Models.Maze", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("DeadLineDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<bool>("Done")
                         .HasColumnType("bit");
@@ -40,13 +37,12 @@ namespace TestReact.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("time")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.ToTable("ToDoItems");
+                    b.ToTable("Maze");
                 });
 #pragma warning restore 612, 618
         }
