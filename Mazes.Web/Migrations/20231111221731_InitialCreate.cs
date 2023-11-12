@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -17,9 +18,8 @@ namespace Mazes.Web.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PerformersName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    time = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Done = table.Column<bool>(type: "bit", nullable: false)
+                    Size = table.Column<int>(type: "int", nullable: false),
+                    BoardData = table.Column<string>(type: "string", nullable: false)
                 },
                 constraints: table =>
                 {

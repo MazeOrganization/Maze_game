@@ -30,19 +30,15 @@ namespace Mazes.Web.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("Done")
-                        .HasColumnType("bit");
+                    b.Property<int>("Size")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<string>("PerformersName")
+                    b.Property<string>("BoardData")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("time")
-                        .HasColumnType("datetime2");
-
                     b.HasKey("Id");
-
-                    b.ToTable("Maze");
                 });
 #pragma warning restore 612, 618
         }
