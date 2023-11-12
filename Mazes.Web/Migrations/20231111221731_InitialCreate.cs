@@ -1,8 +1,4 @@
-﻿using System;
-using System.Drawing;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-#nullable disable
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Mazes.Web.Migrations
 {
@@ -16,8 +12,7 @@ namespace Mazes.Web.Migrations
                 name: "Maze",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "varchar(60)", nullable: false),
                     Size = table.Column<int>(type: "int", nullable: false),
                     BoardData = table.Column<string>(type: "ntext", nullable: false)
                 },
