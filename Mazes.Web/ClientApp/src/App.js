@@ -7,7 +7,7 @@ import { Maze } from "./components/Maze";
 import './custom.css';
 
 const App = () => {
-  const appStore = useMemo(() => new AppStore());
+  const appStore = useMemo(() => new AppStore(), []);
 
   useEffect(() => {
     window.addEventListener("keydown", appStore.handleMove);
