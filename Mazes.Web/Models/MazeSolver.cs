@@ -4,15 +4,29 @@
     {
         public Cell[] GetMazeSolution(Cell[,] Board)
         {
-            var x = BreadthSearch(Board);
-            var res = new Cell[x.Length];
-
-            while(x.Previous != null)
-            {
-                res.push
-            }
+            return ConvertToCellArray(BreadthSearch(Board));
 
         }
+        public static Cell[] ConvertToCellArray(LinkedList<Cell> linkedList)
+        {
+            if (linkedList == null)
+            {
+                throw new ArgumentNullException(nameof(linkedList));
+            }
+
+            List<Cell> cellList = new List<Cell>();
+
+            foreach (var cell in linkedList)
+            {
+                cellList.Add(cell);
+            }
+
+            // Reverse the list to get the correct order in the array
+            cellList.Reverse();
+
+            return cellList.ToArray();
+        }
+
         private LinkedList<Cell> BreadthSearch(Cell[,] Board)
         {
             var visited = new HashSet<Cell>();
@@ -40,6 +54,7 @@
                     }
                 }
             }
+            return null;
         }
 
         private Cell[] FindNeighbours(LinkedList<Cell> curCell)
