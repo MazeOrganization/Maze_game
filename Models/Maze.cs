@@ -7,7 +7,6 @@ namespace TestReact.Models
     {
         public int Id { get; set; }
         public string PerformersName { get; set; }
-        [NotMapped]
         public Cell[] board { get; set; }
         [DataType(DataType.Time)]
         public DateTime time { get; set; }
