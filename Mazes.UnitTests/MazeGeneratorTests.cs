@@ -80,7 +80,7 @@ namespace Mazes.UnitTests
                 {
                     visited.Add((x, y));
 
-                    var currentCell = maze.Board[y * maze.Size + x];
+                    var currentCell = maze.Board[x * maze.Size + y];
 
                     if (!currentCell.IsRightActive)
                     {

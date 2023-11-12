@@ -51,20 +51,10 @@ namespace Mazes.Web.Models
                 return;
             }
 
-                maze[startX, startY] = new Cell
-            {
-                X = startX,
-                Y = startY,
-                IsRightActive = true,
-                IsLeftActive = true,
-                IsUpperActive = true,
-                IsLowerActive = true
-            };
-
             // Define the order in which neighboring cells are visited
             Dictionary<string, int[]> directions = new Dictionary<string, int[]>();
-            directions.Add("Down", new[] { 0, -1 });
-            directions.Add("Up", new[] { 0, 1 });
+            directions.Add("Down", new[] { 0, 1 });
+            directions.Add("Up", new[] { 0, -1 });
             directions.Add("Left", new[] { -1, 0 });
             directions.Add("Right", new[] { 1, 0 });
 
@@ -75,7 +65,9 @@ namespace Mazes.Web.Models
             {
                 int newX = startX + directions[move][0];
                 int newY = startY + directions[move][1];
-                if (IsInBounds(newX, newY, maze) && !visited.Contains(( startX, startY )))
+                var isInBounds = IsInBounds(newX, newY, maze);
+                var isVisited = visited.Contains((newX, newY));
+                if (isInBounds && !isVisited)
                 {
                     // Carve a passage
                     switch (move)
