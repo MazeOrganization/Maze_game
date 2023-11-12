@@ -5,11 +5,11 @@
         public static MazeFront ToFrontModel(this Maze maze)
         {
             var board = maze.Board;
-            var newBoard = new Cell[maze.Size, maze.Size];
+            var newBoard = new Cell[maze.Size][];
 
-            foreach (var cell in board)
+            for(var i = 0; i < maze.Size; i++)
             {
-                newBoard[cell.X, cell.Y] = cell;
+                newBoard[i] = maze.Board.Where(x => x.Y == i).OrderBy(x => x.Y).ToArray();
             }
 
             return new MazeFront(maze.Id, newBoard);

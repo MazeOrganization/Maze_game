@@ -19,9 +19,8 @@ namespace Mazes.Web.Controllers
         [HttpGet]
         public MazeFront Get()
         {
-            //var x = new MazeGenerator();
-            //return x.GenerateMaze(10).ToFrontModel();
-            return WellKnown.Maze.ToFrontModel();
+            var x = new MazeGenerator();
+            return x.GenerateMaze(10).ToFrontModel();
         }
 
         [HttpPost]
