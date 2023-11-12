@@ -3,7 +3,6 @@
     public class MazeGenerator
     {
         private Random random;
-        private int Size;
 
         public MazeGenerator()
         {
@@ -31,7 +30,7 @@
                 }
             }
 
-            // Start DFS from a upper right corner
+            // Start DFS from a upper left corner
             DFS(maze, 0, 0);
 
             // Transform the array into a flattened array for saving it in table
@@ -67,32 +66,38 @@
             };
 
             // Define the order in which neighboring cells are visited
-            int[] directions = { 0, 1, 2, 3 };
-            Shuffle(directions);
+            Dictionary<string, int[]> directions = new Dictionary<string, int[]>();
+            directions.Add("Down", new[] { 0, -1 });
+            directions.Add("Up", new[] { 0, 1 });
+            directions.Add("Left", new[] { -1, 0 });
+            directions.Add("Right", new[] { 1, 0 });
 
-            foreach (var direction in directions)
+            var randDirections = directions.Keys.ToArray();
+            Shuffle(randDirections);
+
+            foreach (var move in randDirections)
             {
-                int newX = startX + DX[direction];
-                int newY = startY + DY[direction];
+                int newX = startX + directions[move][0];
+                int newY = startY + directions[move][1];
 
-                if (IsInBounds(newX, newY, maze) && maze[newX, newY] == null)
+                if (IsInBounds(newX, newY, maze))
                 {
                     // Carve a passage
-                    switch (direction)
+                    switch (move)
                     {
-                        case 0:
+                        case "Up":
                             maze[startX, startY].IsUpperActive = false;
                             maze[newX, newY].IsLowerActive = false;
                             break;
-                        case 1:
+                        case "Right":
                             maze[startX, startY].IsRightActive = false;
                             maze[newX, newY].IsLeftActive = false;
                             break;
-                        case 2:
+                        case "Down":
                             maze[startX, startY].IsLowerActive = false;
                             maze[newX, newY].IsUpperActive = false;
                             break;
-                        case 3:
+                        case "Left":
                             maze[startX, startY].IsLeftActive = false;
                             maze[newX, newY].IsRightActive = false;
                             break;
@@ -106,23 +111,21 @@
         // Helper method to check if a cell is within bounds
         private bool IsInBounds(int x, int y, Cell[,] maze)
         {
-            return x >= 0 && x < Size && y >= 0 && y < Size;
+            var width = maze.GetLength(0);
+            var height = maze.GetLength(1);
+            return x >= 0 && x < width && y >= 0 && y < height;
         }
 
         // Helper method to shuffle the directions array
-        private void Shuffle(int[] array)
+        private void Shuffle(string[] array)
         {
             for (int i = array.Length - 1; i > 0; i--)
             {
                 int j = random.Next(0, i + 1);
-                int temp = array[i];
+                string temp = array[i];
                 array[i] = array[j];
                 array[j] = temp;
             }
         }
-
-        // Define directions for moving up, right, down, and left
-        private int[] DX = { 0, 1, 0, -1 };
-        private int[] DY = { -1, 0, 1, 0 };
     }
 }

@@ -20,7 +20,7 @@ namespace TestReact.Controllers
         public Maze Get()
         {
             var x = new MazeGenerator();
-            return x.GenerateMaze(10);
+            return x.GenerateMaze(4);
         }
 
         [HttpPost]
