@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Maze_game\TestReact.csproj" />
+    <ProjectReference Include="..\Mazes.Web\Mazes.Web.csproj" />
   </ItemGroup>
 
 </Project>

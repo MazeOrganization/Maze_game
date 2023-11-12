@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace TestReact.Migrations
+namespace Mazes.Web.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration

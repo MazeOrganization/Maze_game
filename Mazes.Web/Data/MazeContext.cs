@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TestReact.Models;
+using Mazes.Web.Models;
 
-namespace TestReact.Data
+namespace Mazes.Web.Data
 {
     public class MazeContext : DbContext
     {

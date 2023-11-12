@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TestReact.Data;
+using Mazes.Web.Data;
 
 #nullable disable
 
-namespace TestReact.Migrations
+namespace Mazes.Web.Migrations
 {
     [DbContext(typeof(MazeContext))]
     partial class MazeContextModelSnapshot : ModelSnapshot
@@ -22,7 +22,7 @@ namespace TestReact.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("TestReact.Models.Maze", b =>
+            modelBuilder.Entity("Mazes.Web.Models.Maze", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

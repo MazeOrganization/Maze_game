@@ -8,7 +8,7 @@
     }
   },
   "profiles": {
-    "TestReact": {
+    "Mazes.Web": {
       "commandName": "Project",
       "launchBrowser": true,
       "applicationUrl": "https://localhost:7182;http://localhost:5116",

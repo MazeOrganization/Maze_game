@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TestReact.Models
+namespace Mazes.Web.Models
 {
     public class MazeFront  
     {

@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestReact", "TestReact.csproj", "{7733833F-80EF-4110-BEC9-55FE945EE214}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mazes.Web", "Mazes.Web\Mazes.Web.csproj", "{7733833F-80EF-4110-BEC9-55FE945EE214}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mazes.UnitTests", "..\Mazes.UnitTests\Mazes.UnitTests.csproj", "{7C12882C-9F81-4948-A776-606ABEA1B315}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mazes.UnitTests", "Mazes.UnitTests\Mazes.UnitTests.csproj", "{7C12882C-9F81-4948-A776-606ABEA1B315}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
