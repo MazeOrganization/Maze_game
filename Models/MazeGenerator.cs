@@ -33,23 +33,11 @@
             // Start DFS from a upper left corner
             DFS(maze, 0, 0);
 
-            // Transform the array into a flattened array for saving it in table
-            Cell[] flattenedArray = new Cell[size * size];
-            int index = 0;
-
-            for (int i = 0; i < size; i++)
-            {
-                for (int j = 0; j < size; j++)
-                {
-                    flattenedArray[index++] = maze[i, j];
-                }
-            }
-
             return new Maze
             {
                 Id = Guid.NewGuid().ToString(),
                 Size = size,
-                Board = flattenedArray
+                Board = maze.Cast<Cell>().ToArray()
             };
         }
 
@@ -111,9 +99,7 @@
         // Helper method to check if a cell is within bounds
         private bool IsInBounds(int x, int y, Cell[,] maze)
         {
-            var width = maze.GetLength(0);
-            var height = maze.GetLength(1);
-            return x >= 0 && x < width && y >= 0 && y < height;
+            return x >= 0 && x < Size && y >= 0 && y < Size;
         }
 
         // Helper method to shuffle the directions array
