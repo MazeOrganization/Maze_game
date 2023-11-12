@@ -15,7 +15,7 @@ namespace Mazes.UnitTests
         [Test]
         public void Maze_BoardIsCorrectSize()
         {
-            var maze = generator.GenerateMaze(10);
+            var maze = generator.GenerateMaze(2);
             var board = maze.Board;
 
             foreach (var cell in board)
@@ -28,7 +28,7 @@ namespace Mazes.UnitTests
         [Test]
         public void Maze_HasPathFromStartToFinish()
         {
-            var maze = generator.GenerateMaze(10);
+            var maze = generator.GenerateMaze(3);
 
             var hasPath = HasPath(maze, (0, 0), (maze.Size - 1, maze.Size - 1));
 

@@ -1,4 +1,6 @@
-﻿namespace Mazes.Web.Models
+﻿using System.Linq;
+
+namespace Mazes.Web.Models
 {
     public class MazeGenerator
     {
@@ -12,6 +14,7 @@
         public Maze GenerateMaze(int size)
         {
             Cell[,] maze = new Cell[size, size];
+            HashSet<(int,int)> visited = new HashSet<(int, int)>();
 
             // Initialize maze with walls
             for (int i = 0; i < size; i++)
@@ -31,7 +34,7 @@
             }
 
             // Start DFS from a upper left corner
-            DFS(maze, 0, 0);
+            DFS(maze, 0, 0, visited);
 
             return new Maze
             {
@@ -41,9 +44,14 @@
             };
         }
 
-        private void DFS(Cell[,] maze, int startX, int startY)
+        private void DFS(Cell[,] maze, int startX, int startY, HashSet<(int,int)> visited )
         {
-            maze[startX, startY] = new Cell
+            if (startX == maze.GetLength(0) - 1 && startY == maze.GetLength(1) - 1)
+            {
+                return;
+            }
+
+                maze[startX, startY] = new Cell
             {
                 X = startX,
                 Y = startY,
@@ -67,8 +75,7 @@
             {
                 int newX = startX + directions[move][0];
                 int newY = startY + directions[move][1];
-
-                if (IsInBounds(newX, newY, maze))
+                if (IsInBounds(newX, newY, maze) && !visited.Contains(( startX, startY )))
                 {
                     // Carve a passage
                     switch (move)
@@ -90,8 +97,8 @@
                             maze[newX, newY].IsRightActive = false;
                             break;
                     }
-
-                    DFS(maze, newX, newY);
+                    visited.Add((startX, startY));
+                    DFS(maze, newX, newY, visited);
                 }
             }
         }
@@ -99,7 +106,7 @@
         // Helper method to check if a cell is within bounds
         private bool IsInBounds(int x, int y, Cell[,] maze)
         {
-            return x >= 0 && x < Size && y >= 0 && y < Size;
+            return x >= 0 && x < maze.GetLength(0) && y >= 0 && y < maze.GetLength(1);
         }
 
         // Helper method to shuffle the directions array
