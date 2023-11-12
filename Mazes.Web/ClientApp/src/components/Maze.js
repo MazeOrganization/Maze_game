@@ -65,7 +65,7 @@ const MazeRenderer = observer(({ maze, userPosition }) => {
 export const Maze = observer((props) => {
   useEffect(() => {
     props.appStore.mazeStore.fetchMaze();
-  }, []);
+  }, [props.appStore.mazeStore]);
 
   let contents = !props.appStore.mazeStore.maze
       ? <p><em>Loading...</em></p>
