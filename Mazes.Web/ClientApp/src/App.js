@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import AppStore from './stores/AppStore';
 import { Congratulations } from './components/Congratulations';
@@ -7,7 +7,7 @@ import { Maze } from "./components/Maze";
 import './custom.css';
 
 const App = () => {
-  const appStore = new AppStore();
+  const appStore = useMemo(() => new AppStore());
 
   useEffect(() => {
     window.addEventListener("keydown", appStore.handleMove);
