@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
+import { observer } from 'mobx-react-lite';
 
-const MazeRenderer = ({ maze }) => {
+const MazeRenderer = observer(({ maze, userPosition }) => {
     const renderCells = () => {
       const rows = [];
   
@@ -10,17 +11,36 @@ const MazeRenderer = ({ maze }) => {
         for (let j = 0; j < maze.board[i].length; j++) {
           const cell = maze.board[i][j];
           const cellStyle = {
-            borderRight: cell.isRightActive ? '1px solid black' : '1px solid white',
-            borderLeft: cell.isLeftActive ? '1px solid black' : '1px solid white',
-            borderTop: cell.isUpperActive ? '1px solid black' : '1px solid white',
-            borderBottom: cell.isLowerActive ? '1px solid black' : '1px solid white',
-            width: '40px',
-            height: '40px',
+            borderRight: cell.isRightActive ? '2px solid black' : '0px solid white',
+            borderLeft: cell.isLeftActive ? '2px solid black' : '0px solid white',
+            borderTop: cell.isUpperActive ? '2px solid black' : '0px solid white',
+            borderBottom: cell.isLowerActive ? '2px solid black' : '0px solid white',
+            backgroundColor: cell.x === 0 & cell.y === 0
+              ? 'green'
+              : cell.x === maze.board.length - 1 && cell.y === maze.board.length - 1
+                ? 'red'
+                : 'white',
+            width: '30px',
+            height: '30px',
             display: 'inline-block',
+            position: 'relative'
           };
+          
+          const playerStyle = {
+            backgroundColor: 'blue',
+            borderRadius: '50%',
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: '50%',
+            height: '50%',
+          }
   
           cells.push(
-            <div key={`${cell.X}-${cell.Y}`} style={cellStyle}></div>
+            <div key={`${cell.x}-${cell.y}`} style={cellStyle}>
+              {userPosition[0] === cell.x && userPosition[1] === cell.y && <div style={playerStyle}></div>}
+            </div>
           );
         }
   
@@ -40,61 +60,24 @@ const MazeRenderer = ({ maze }) => {
         {renderCells()}
       </div>
     );
-  };
+  });
 
-export class Maze extends Component {
-  static displayName = Maze.name;
+export const Maze = observer((props) => {
+  useEffect(() => {
+    props.appStore.mazeStore.fetchMaze();
+  }, []);
 
-  constructor(props) {
-    super(props);
-    this.state = { loading: true, maze: null };
-  }
-
-  componentDidMount() {
-    this.populateMazeData();
-  }
-
-  async populateMazeData() {
-    const response = await fetch('maze');
-    const data = await response.json();
-    this.setState({ maze: data, loading: false });
-  }
-
-  static renderForecastsTable(forecasts) {
-    return (
-      <table className="table table-striped" aria-labelledby="tableLabel">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Temp. (C)</th>
-            <th>Temp. (F)</th>
-            <th>Summary</th>
-          </tr>
-        </thead>
-        <tbody>
-          {forecasts.map(forecast =>
-            <tr key={forecast.date}>
-              <td>{forecast.date}</td>
-              <td>{forecast.temperatureC}</td>
-              <td>{forecast.temperatureF}</td>
-              <td>{forecast.summary}</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    );
-  }
-
-  render() {
-    let contents = this.state.loading
+  let contents = !props.appStore.mazeStore.maze
       ? <p><em>Loading...</em></p>
-      : <MazeRenderer maze={this.state.maze} />;
+      : <MazeRenderer
+          userPosition={props.appStore.playerStore.userPosition}
+          maze={props.appStore.mazeStore.maze}
+        />;
 
-    return (
-      <div>
-        <h1 id="tableLabel">Maze</h1>
-        {contents}
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <h1 id="tableLabel">Maze</h1>
+      {contents}
+    </div>
+  );
+});

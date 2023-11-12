@@ -1,22 +1,25 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import AppRoutes from './AppRoutes';
+import { observer } from 'mobx-react-lite';
+import { Maze } from "./components/Maze";
 import { Layout } from './components/Layout';
+import AppStore from './stores/AppStore';
 import './custom.css';
 
-export default class App extends Component {
-  static displayName = App.name;
+const App = observer(() => {
+  const appStore = new AppStore();
 
-  render() {
+  useEffect(() => {
+    window.addEventListener("keydown", appStore.handleMove);
+  }, []);
+
     return (
       <Layout>
         <Routes>
-          {AppRoutes.map((route, index) => {
-            const { element, ...rest } = route;
-            return <Route key={index} {...rest} element={element} />;
-          })}
+          <Route path="/" element={<Maze appStore={appStore } />} />
         </Routes>
       </Layout>
     );
-  }
-}
+  });
+
+export default App;
