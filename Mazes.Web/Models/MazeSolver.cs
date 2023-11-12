@@ -1,4 +1,6 @@
-﻿namespace Mazes.Web.Models
+﻿using Dungeon;
+
+namespace Mazes.Web.Models
 {
     public class MazeSolver
     {
@@ -7,7 +9,7 @@
             return ConvertToCellArray(BreadthSearch(Board));
 
         }
-        public static Cell[] ConvertToCellArray(LinkedList<Cell> linkedList)
+        public static Cell[] ConvertToCellArray(SinglyLinkedList<Cell> linkedList)
         {
             if (linkedList == null)
             {
@@ -27,14 +29,14 @@
             return cellList.ToArray();
         }
 
-        private LinkedList<Cell> BreadthSearch(Cell[,] Board)
+        private SinglyLinkedList<Cell> BreadthSearch(Cell[,] Board)
         {
             var visited = new HashSet<Cell>();
-            var queue = new Queue<LinkedList<Cell>>();
+            var queue = new Queue<SinglyLinkedList<Cell>>();
 
 
             visited.Add(Board[0, 0]);
-            queue.Enqueue(new LinkedList<Cell>(Board[0, 0]));
+            queue.Enqueue(new SinglyLinkedList<Cell>(Board[0, 0]));
 
             while (queue.Count != 0)
             {
@@ -43,7 +45,7 @@
 
                 foreach (var curNeighbour in neighbours.Where(p => !visited.Contains(p)))
                 {
-                    var path = new LinkedList<Cell>(curNeighbour, cell);
+                    var path = new SinglyLinkedList<Cell>(curNeighbour, cell);
 
                     visited.Add(curNeighbour);
                     queue.Enqueue(path);
@@ -57,7 +59,7 @@
             return null;
         }
 
-        private Cell[] FindNeighbours(LinkedList<Cell> curCell)
+        private Cell[] FindNeighbours(SinglyLinkedList<Cell> curCell)
         {
             var res = new List<Cell>();
             var currentCell = curCell.Value;

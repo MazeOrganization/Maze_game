@@ -20,7 +20,7 @@ namespace Mazes.Web.Controllers
         public MazeFront Get()
         {
             var x = new MazeGenerator();
-            return x.GenerateMaze(10).ToFrontModel();
+            return x.GenerateMaze(15).ToFrontModel();
         }
 
         [HttpPost]

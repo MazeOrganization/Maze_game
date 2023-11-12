@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.ComponentModel.DataAnnotations;
-using System.Drawing;
-
-namespace Mazes.Web.Models
+﻿namespace Mazes.Web.Models
 {
     public class MazeFront
     {
