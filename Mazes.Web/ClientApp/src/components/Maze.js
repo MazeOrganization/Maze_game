@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { observer } from 'mobx-react-lite';
 
 const MazeRenderer = observer(({ maze, userPosition }) => {
@@ -56,17 +56,12 @@ const MazeRenderer = observer(({ maze, userPosition }) => {
   
     return (
       <div>
-        <h2>Maze ID: {maze.id}</h2>
         {renderCells()}
       </div>
     );
   });
 
 export const Maze = observer((props) => {
-  useEffect(() => {
-    props.appStore.mazeStore.fetchMaze();
-  }, [props.appStore.mazeStore]);
-
   let contents = !props.appStore.mazeStore.maze
       ? <p><em>Loading...</em></p>
       : <MazeRenderer
@@ -76,7 +71,6 @@ export const Maze = observer((props) => {
 
   return (
     <div>
-      <h1 id="tableLabel">Maze</h1>
       {contents}
     </div>
   );
