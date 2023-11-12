@@ -19,7 +19,7 @@ namespace Mazes.Web.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Size = table.Column<int>(type: "int", nullable: false),
-                    BoardData = table.Column<string>(type: "string", nullable: false)
+                    BoardData = table.Column<string>(type: "ntext", nullable: false)
                 },
                 constraints: table =>
                 {
