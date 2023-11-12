@@ -4,7 +4,7 @@
     {
         public static MazeFront ToFrontModel(this Maze maze)
         {
-            var board = maze.board;
+            var board = maze.Board;
             var newBoard = new Cell[maze.Size, maze.Size];
 
             foreach (var cell in board)

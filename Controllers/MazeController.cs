@@ -17,9 +17,10 @@ namespace TestReact.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Maze> Get()
+        public Maze Get()
         {
-            return _context.Maze.ToList();
+            var x = new MazeGenerator();
+            return x.GenerateMaze(10);
         }
 
         [HttpPost]
@@ -35,5 +36,6 @@ namespace TestReact.Controllers
             _context.Update(maze);
             await _context.SaveChangesAsync();
         }
+
     }
 }
