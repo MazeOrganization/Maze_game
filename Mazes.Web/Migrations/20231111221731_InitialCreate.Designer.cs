@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TestReact.Data;
+using Mazes.Web.Data;
 
 #nullable disable
 
-namespace TestReact.Migrations
+namespace Mazes.Web.Migrations
 {
     [DbContext(typeof(MazeContext))]
     [Migration("20231111221731_InitialCreate")]

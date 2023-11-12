@@ -1,4 +1,4 @@
-using TestReact.Models;
+using Mazes.Web.Models;
 
 namespace Mazes.UnitTests
 {

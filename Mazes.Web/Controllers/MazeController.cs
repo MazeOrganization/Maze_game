@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TestReact.Data;
-using TestReact.Models;
+using Mazes.Web.Data;
+using Mazes.Web.Models;
 
-namespace TestReact.Controllers
+namespace Mazes.Web.Controllers
 {
     [ApiController]
     [Route("[controller]")]

@@ -1,4 +1,4 @@
-﻿namespace TestReact.Models
+﻿namespace Mazes.Web.Models
 {
     public class MazeGenerator
     {
