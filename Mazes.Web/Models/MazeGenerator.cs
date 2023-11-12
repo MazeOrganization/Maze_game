@@ -48,6 +48,7 @@ namespace Mazes.Web.Models
         {
             if (startX == maze.GetLength(0) - 1 && startY == maze.GetLength(1) - 1)
             {
+                visited.Add((startX, startY));
                 return;
             }
 
