@@ -1,3 +1,4 @@
+using Mazes.Web;
 using Mazes.Web.Models;
 
 namespace Mazes.UnitTests
@@ -29,6 +30,28 @@ namespace Mazes.UnitTests
         public void Maze_HasPathFromStartToFinish()
         {
             var maze = generator.GenerateMaze(3);
+
+            var hasPath = HasPath(maze, (0, 0), (maze.Size - 1, maze.Size - 1));
+
+            Assert.IsTrue(hasPath);
+        }
+
+        [Test]
+        public void Maze_HasOuterWalls()
+        {
+            var maze = generator.GenerateMaze(10);
+            var board = maze.Board;
+
+            CollectionAssert.DoesNotContain(board.Where(cell => cell.X == 0).Select(cell => cell.IsLeftActive), false);
+            CollectionAssert.DoesNotContain(board.Where(cell => cell.X == maze.Size - 1).Select(cell => cell.IsRightActive), false);
+            CollectionAssert.DoesNotContain(board.Where(cell => cell.Y == 0).Select(cell => cell.IsUpperActive), false);
+            CollectionAssert.DoesNotContain(board.Where(cell => cell.Y == maze.Size - 1).Select(cell => cell.IsLowerActive), false);
+        }
+
+        [Test]
+        public void WellKnownMaze_HasPath()
+        {
+            var maze = WellKnown.Maze;
 
             var hasPath = HasPath(maze, (0, 0), (maze.Size - 1, maze.Size - 1));
 
