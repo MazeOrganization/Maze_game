@@ -66,9 +66,8 @@ namespace Mazes.Web.Models
             {
                 int newX = startX + directions[move][0];
                 int newY = startY + directions[move][1];
-                var isInBounds = IsInBounds(newX, newY, maze);
-                var isVisited = visited.Contains((newX, newY));
-                if (isInBounds && !isVisited)
+
+                if (IsInBounds(newX, newY, maze) && !visited.Contains((newX, newY)))
                 {
                     // Carve a passage
                     switch (move)
