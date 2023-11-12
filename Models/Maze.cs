@@ -8,7 +8,7 @@ namespace TestReact.Models
         public string Id { get; set; }
         public int Size { get; set; }
         [NotMapped]
-        public Cell[] Board 
+        public Cell[] Board
         { 
             get 
             { 
