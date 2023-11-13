@@ -13,10 +13,10 @@ const MazeRenderer = observer(({ maze, userPosition }) => {
         for (let j = 0; j < maze.board[i].length; j++) {
           const cell = maze.board[i][j];
           const cellStyle = {
-            borderRight: cell.isRightActive ? '2px solid black' : '0px solid white',
-            borderLeft: cell.isLeftActive ? '2px solid black' : '0px solid white',
-            borderTop: cell.isUpperActive ? '2px solid black' : '0px solid white',
-            borderBottom: cell.isLowerActive ? '2px solid black' : '0px solid white',
+            borderRight: cell.isRightActive ? '2px solid white' : '0px solid transparent',
+              borderLeft: cell.isLeftActive ? '2px solid white' : '0px solid transparent',
+              borderTop: cell.isUpperActive ? '2px solid white' : '0px solid transparent',
+              borderBottom: cell.isLowerActive ? '2px solid white' : '0px solid transparent',
             backgroundImage: cell.x === maze.board.length - 1 && cell.y === maze.board.length - 1 ? `url(${kid})` : 'none',
             backgroundSize: 'contain',
             backgroundColor: cell.isSolution
@@ -25,7 +25,7 @@ const MazeRenderer = observer(({ maze, userPosition }) => {
                       ? 'green'
                       : cell.x === maze.board.length - 1 && cell.y === maze.board.length - 1
                           ? 'red'
-                          : 'white',
+                          : 'rgba(0, 0, 0, 0.5)',
             width: '30px',
             height: '30px',
             display: 'inline-block',
@@ -77,7 +77,7 @@ export const Maze = observer((props) => {
         />;
 
   return (
-    <div>
+      <div style={{ width: '600px', margin: '0 auto' }}>
       {contents}
     </div>
   );

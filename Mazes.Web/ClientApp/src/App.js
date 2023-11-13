@@ -20,8 +20,9 @@ const App = () => {
 
     return (
       <Layout>
-        <div style={{marginBottom: '20px'}}>
-          <p style={{ color:'white'}}>On desktop use the keys to move, reach the red square to solve a maze</p>
+        <div style={{ width: '600px', margin: '0 auto 20px auto'}}>
+                <p style={{ color: 'white' }}>On desktop use the keys to move, reach the red square to solve a maze</p>
+                <div style={{ width: '300px', margin: '0 auto' }}>
           <button style={{marginRight: '10px'}} onClick={() => {
             appStore.playerStore.setUserPosition(0, 0);
             appStore.playerStore.setSolved(false);
@@ -38,13 +39,14 @@ const App = () => {
           <button onClick={() => {
             appStore.mazeStore.solveMaze();
             appStore.playerStore.stopTime();
-          }}>Solve</button>
-          <Time playerStore={appStore.playerStore} />
+                    }}>Solve</button>
+                </div>
           <Congratulations playerStore={appStore.playerStore} />
         </div>
         <Routes>
           <Route path="/" element={<Maze appStore={appStore } />} />
-        </Routes>
+            </Routes>
+            <Time playerStore={appStore.playerStore} />
       </Layout>
     );
   };
