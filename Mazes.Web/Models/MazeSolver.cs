@@ -6,17 +6,18 @@ namespace Mazes.Web.Models
     {
         public Cell[] GetMazeSolution(Cell[,] Board)
         {
-            return ConvertToCellArray(BreadthSearch(Board));
+            var solution = BreadthSearch(Board);
+            if (solution == null)
+            {
+                return Array.Empty<Cell>();
+            }
+
+            return ConvertToCellArray(solution);
 
         }
         public static Cell[] ConvertToCellArray(SinglyLinkedList<Cell> linkedList)
         {
-            if (linkedList == null)
-            {
-                throw new ArgumentNullException(nameof(linkedList));
-            }
-
-            List<Cell> cellList = new List<Cell>();
+            var cellList = new List<Cell>();
 
             foreach (var cell in linkedList)
             {
@@ -29,7 +30,7 @@ namespace Mazes.Web.Models
             return cellList.ToArray();
         }
 
-        private SinglyLinkedList<Cell> BreadthSearch(Cell[,] Board)
+        private static SinglyLinkedList<Cell>? BreadthSearch(Cell[,] Board)
         {
             var visited = new HashSet<Cell>();
             var queue = new Queue<SinglyLinkedList<Cell>>();
@@ -59,7 +60,7 @@ namespace Mazes.Web.Models
             return null;
         }
 
-        private Cell[] FindNeighbours(SinglyLinkedList<Cell> curCell)
+        private static Cell[] FindNeighbours(SinglyLinkedList<Cell> curCell)
         {
             var res = new List<Cell>();
             var currentCell = curCell.Value;

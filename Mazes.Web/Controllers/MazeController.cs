@@ -38,5 +38,20 @@ namespace Mazes.Web.Controllers
             await _context.SaveChangesAsync();
         }
 
+        [HttpGet]
+        [Route("{mazeId}/solve")]
+        public Cell[]? Solve(string mazeId)
+        {
+            var maze = _context.Maze.First(x => x.Id == mazeId);
+
+            var solution = new List<Cell>();
+            for (var i = 0; i < maze.Size; i++)
+            {
+                solution.Add(new Cell { X = i, Y = i });
+                solution.Add(new Cell { X = i + 1, Y = i });
+            }
+            return solution.ToArray();
+        }
+
     }
 }
