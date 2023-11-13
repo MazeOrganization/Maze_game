@@ -1,5 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
+import parents from '../images/parents.png';
+import kid from '../images/kid.png';
 
 const MazeRenderer = observer(({ maze, userPosition }) => {
     const renderCells = () => {
@@ -15,29 +17,32 @@ const MazeRenderer = observer(({ maze, userPosition }) => {
             borderLeft: cell.isLeftActive ? '2px solid black' : '0px solid white',
             borderTop: cell.isUpperActive ? '2px solid black' : '0px solid white',
             borderBottom: cell.isLowerActive ? '2px solid black' : '0px solid white',
-            backgroundColor:  cell.isSolution
-              ? 'gold'
-              : cell.x === 0 & cell.y === 0
-                ? 'green'
-                : cell.x === maze.board.length - 1 && cell.y === maze.board.length - 1
-                  ? 'red'
-                  : 'white',
+            backgroundImage: cell.x === maze.board.length - 1 && cell.y === maze.board.length - 1 ? `url(${kid})` : 'none',
+            backgroundSize: 'contain',
+            backgroundColor: cell.isSolution
+                  ? 'gold'
+                  : cell.x === 0 & cell.y === 0
+                      ? 'green'
+                      : cell.x === maze.board.length - 1 && cell.y === maze.board.length - 1
+                          ? 'red'
+                          : 'white',
             width: '30px',
             height: '30px',
             display: 'inline-block',
             position: 'relative'
           };
           
-          const playerStyle = {
-            backgroundColor: 'blue',
-            borderRadius: '50%',
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: '50%',
-            height: '50%',
-          }
+            const playerStyle = {
+                backgroundImage: `url(${parents})`,
+                backgroundSize: 'contain',
+                backgroundRepeat: 'no-repeat',
+                position: 'absolute',
+                top: '54%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: '120%',
+                height: '120%',
+            }
   
           cells.push(
             <div key={`${cell.x}-${cell.y}`} style={cellStyle}>

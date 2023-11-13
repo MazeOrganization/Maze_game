@@ -21,7 +21,7 @@ const App = () => {
     return (
       <Layout>
         <div style={{marginBottom: '20px'}}>
-          <p>On desktop use the keys to move, reach the red square to solve a maze</p>
+          <p style={{ color:'white'}}>On desktop use the keys to move, reach the red square to solve a maze</p>
           <button style={{marginRight: '10px'}} onClick={() => {
             appStore.playerStore.setUserPosition(0, 0);
             appStore.playerStore.setSolved(false);

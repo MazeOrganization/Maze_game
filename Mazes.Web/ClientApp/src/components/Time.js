@@ -12,7 +12,7 @@ export const Time = observer(({playerStore}) => {
     
     return (
       <div>
-        <p>Time: {displayTime()}</p>
+            <p style={{ color: 'white' }}>Time: {displayTime()}</p>
       </div>
     );
   });   
