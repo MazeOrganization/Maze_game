@@ -15,11 +15,13 @@ const MazeRenderer = observer(({ maze, userPosition }) => {
             borderLeft: cell.isLeftActive ? '2px solid black' : '0px solid white',
             borderTop: cell.isUpperActive ? '2px solid black' : '0px solid white',
             borderBottom: cell.isLowerActive ? '2px solid black' : '0px solid white',
-            backgroundColor: cell.x === 0 & cell.y === 0
-              ? 'green'
-              : cell.x === maze.board.length - 1 && cell.y === maze.board.length - 1
-                ? 'red'
-                : 'white',
+            backgroundColor:  cell.isSolution
+              ? 'gold'
+              : cell.x === 0 & cell.y === 0
+                ? 'green'
+                : cell.x === maze.board.length - 1 && cell.y === maze.board.length - 1
+                  ? 'red'
+                  : 'white',
             width: '30px',
             height: '30px',
             display: 'inline-block',

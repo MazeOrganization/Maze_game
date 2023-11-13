@@ -13,6 +13,10 @@ export default class AppStore {
       if (!maze) {
         return;
       }
+
+      if (this.playerStore.timeInterval === null) {
+        this.playerStore.startTime();
+      }
       
       const userPosition = this.playerStore.userPosition;
       const [x, y] = userPosition;
@@ -33,6 +37,7 @@ export default class AppStore {
       
       if (this.hasSolved()) {
         this.playerStore.setSolved(true);
+        this.playerStore.stopTime();
       }
     };
 
