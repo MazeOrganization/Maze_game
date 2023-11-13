@@ -16,3 +16,63 @@ code {
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
+
+
+button {
+    position: relative;
+    height: 55px;
+    min-width: 160px;
+    border-radius: 50px;
+    border: none;
+    outline: none;
+    background: #111;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.5s;
+    text-align: center;
+}
+
+    button:hover {
+        background: linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);
+        background-size: 400%;
+    }
+
+
+    button:before {
+        content: '';
+        position: absolute;
+        background: inherit;
+        top: -5px;
+        right: -5px;
+        bottom: -5px;
+        left: -5px;
+        border-radius: 50px;
+        filter: blur(20px);
+        opacity: 0;
+        transition: opacity 0.5s;
+    }
+
+    button:hover:before,
+    button:hover:before {
+        opacity: 1;
+        z-index: -1;
+    }
+
+    button:hover {
+        z-index: 1;
+        animation: glow 8s linear infinite;
+    }
+
+@keyframes glow {
+    0% {
+        background-position: 0%;
+    }
+
+    100% {
+        background-position: 400%;
+    }
+}

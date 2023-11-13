@@ -11,7 +11,7 @@ export const Time = observer(({playerStore}) => {
     }
     
     return (
-        <div style={{ width: '100px', margin: '30px auto 0 auto' }}>
+        <div style={{ width: '600px', margin: '30px auto 0 auto', textAlign: 'center' }}>
             <p style={{ color: 'white' }}>Time: {displayTime()}</p>
       </div>
     );

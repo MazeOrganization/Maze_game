@@ -19,10 +19,10 @@ const App = () => {
   }, [appStore.mazeStore]);
 
     return (
-      <Layout>
-        <div style={{ width: '600px', margin: '0 auto 20px auto'}}>
-                <p style={{ color: 'white' }}>On desktop use the keys to move, reach the red square to solve a maze</p>
-                <div style={{ width: '300px', margin: '0 auto' }}>
+        <Layout>
+            <div style={{ width: '600px', margin: '0 auto', textAlign: 'center' }}>
+                <p style={{ color: 'white', marginTop: '30px', marginBottom: '30px' }}> Use  ↑ ↓ → ← or WASD to help parents find their child! Buttons will help you go back to the start, try a new maze or see the solution.</p>
+                <div style={{ display: 'flex', minWidth: '300px', marginTop: '40px', marginBottom: '8px', justifyContent: 'space-between' }}>
           <button style={{marginRight: '10px'}} onClick={() => {
             appStore.playerStore.setUserPosition(0, 0);
             appStore.playerStore.setSolved(false);

@@ -19,13 +19,7 @@ const MazeRenderer = observer(({ maze, userPosition }) => {
               borderBottom: cell.isLowerActive ? '2px solid white' : '0px solid transparent',
             backgroundImage: cell.x === maze.board.length - 1 && cell.y === maze.board.length - 1 ? `url(${kid})` : 'none',
             backgroundSize: 'contain',
-            backgroundColor: cell.isSolution
-                  ? 'gold'
-                  : cell.x === 0 & cell.y === 0
-                      ? 'green'
-                      : cell.x === maze.board.length - 1 && cell.y === maze.board.length - 1
-                          ? 'red'
-                          : 'rgba(0, 0, 0, 0.5)',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
             width: '30px',
             height: '30px',
             display: 'inline-block',
