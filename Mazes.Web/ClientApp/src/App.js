@@ -18,11 +18,23 @@ const App = () => {
     appStore.mazeStore.fetchMaze();
   }, [appStore.mazeStore]);
 
+    //let text = 'Use  ↑ ↓ → ← or WASD to help parents find their child! Buttons will help you go back to the start, try a new maze or see the solution.';
+    //var curr = 0;
+    //var Write = function write() {
+    //        var elem = document.getElementById('target');
+    //        elem.textContent = elem.textContent + text.charAt(curr);
+    //        curr++;
+    //        if (curr < text.length)
+    //            window.setTimeout(write, 60);
+    //}
+
+    //Write();
+
     return (
         <Layout>
             <div style={{ width: '600px', margin: '0 auto', textAlign: 'center' }}>
-                <p style={{ color: 'white', marginTop: '30px', marginBottom: '30px' }}> Use  ↑ ↓ → ← or WASD to help parents find their child! Buttons will help you go back to the start, try a new maze or see the solution.</p>
-                <div style={{ display: 'flex', minWidth: '300px', marginTop: '40px', marginBottom: '8px', justifyContent: 'space-between' }}>
+                <div id="target" style={{ color: 'white', marginTop: '40px', marginBottom: '40px' }}>'Use  ↑ ↓ → ← or WASD to help parents find their child! Buttons will help you go back to the start, try a new maze or see the solution.'</div>
+                <div style={{ display: 'flex', minWidth: '300px', marginTop: '30px', marginBottom: '10px', justifyContent: 'space-between' }}>
           <button style={{marginRight: '10px'}} onClick={() => {
             appStore.playerStore.setUserPosition(0, 0);
             appStore.playerStore.setSolved(false);
