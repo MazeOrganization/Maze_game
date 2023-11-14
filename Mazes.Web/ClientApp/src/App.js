@@ -41,8 +41,8 @@ const App = () => {
             appStore.playerStore.stopTime();
                     }}>Solve</button>
                 </div>
-          <Congratulations playerStore={appStore.playerStore} />
-        </div>
+            </div>
+            <Congratulations playerStore={appStore.playerStore} />
         <Routes>
           <Route path="/" element={<Maze appStore={appStore } />} />
             </Routes>
