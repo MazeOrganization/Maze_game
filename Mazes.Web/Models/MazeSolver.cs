@@ -1,76 +1,103 @@
-﻿using Dungeon;
+﻿
+using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Mazes.Web.Models
 {
     public class MazeSolver
     {
-        public Cell[] GetMazeSolution(Cell[,] Board)
-        {
-            var solution = BreadthSearch(Board);
-            if (solution == null)
+       public Cell[] GetMazeSolution(Cell[,] maze)
+       {
+            Stack<Cell> path = new Stack<Cell>();
+            var visited = new List<Cell>();
+
+            Cell curCell = maze[0, 0];
+            visited.Add(curCell);
+            path.Push(curCell);
+
+            while(curCell != maze[maze.GetLength(0) - 1, maze.GetLength(1)-1])
             {
-                return Array.Empty<Cell>();
-            }
+                var nextCell = FindNextCell(curCell, maze, visited);
 
-            return ConvertToCellArray(solution);
-
-        }
-        public static Cell[] ConvertToCellArray(SinglyLinkedList<Cell> linkedList)
-        {
-            var cellList = new List<Cell>();
-
-            foreach (var cell in linkedList)
-            {
-                cellList.Add(cell);
-            }
-
-            // Reverse the list to get the correct order in the array
-            cellList.Reverse();
-
-            return cellList.ToArray();
-        }
-
-        private static SinglyLinkedList<Cell>? BreadthSearch(Cell[,] Board)
-        {
-            var visited = new HashSet<Cell>();
-            var queue = new Queue<SinglyLinkedList<Cell>>();
-
-
-            visited.Add(Board[0, 0]);
-            queue.Enqueue(new SinglyLinkedList<Cell>(Board[0, 0]));
-
-            while (queue.Count != 0)
-            {
-                var cell = queue.Dequeue();
-                var neighbours = FindNeighbours(cell);
-
-                foreach (var curNeighbour in neighbours.Where(p => !visited.Contains(p)))
+                if(nextCell == curCell)
                 {
-                    var path = new SinglyLinkedList<Cell>(curNeighbour, cell);
+                    nextCell = GoBackToLastIntersection(maze, visited, path, curCell);
+                }
 
-                    visited.Add(curNeighbour);
-                    queue.Enqueue(path);
+                visited.Add(nextCell);
+                path.Push(nextCell);
+                curCell = nextCell;
+            }
+            return path.ToArray();
+       }
+        
+        private Cell GoBackToLastIntersection(Cell[,] maze, List<Cell> visited, Stack<Cell> path, Cell cell)
+        {
+            var curCell = cell;
+            var nextCell = curCell;
 
-                    if (curNeighbour == Board[Board.GetLength(0), Board.GetLength(1)])
-                    {
-                        return path;
-                    }
+            while (true)
+            {
+                nextCell = FindNextCell(curCell, maze, visited);
+                if (nextCell == curCell)
+                {
+                    curCell = path.Pop();
+                }
+                else
+                {
+                    break;
                 }
             }
-            return null;
+            return nextCell;
         }
-
-        private static Cell[] FindNeighbours(SinglyLinkedList<Cell> curCell)
+        private Cell FindNextCell(Cell curCell, Cell[,] maze, List<Cell> visited)
         {
-            var res = new List<Cell>();
-            var currentCell = curCell.Value;
+            (int,int)[] prioritedDirections = {(1,0), (0,1), (-1,0), (0,-1) };
 
-            if (!currentCell.IsUpperActive) res.Add(currentCell);
-            if (!currentCell.IsLowerActive) res.Add(currentCell);
-            if (!currentCell.IsLeftActive) res.Add(currentCell);
-            if (!currentCell.IsRightActive) res.Add(currentCell);
+            foreach(var direction in prioritedDirections) 
+            {
+                var next = maze[curCell.X + direction.Item1, curCell.Y + direction.Item2];
 
-            return res.ToArray();
+                switch (direction) 
+                {
+                    case (1, 0): 
+                        if (!curCell.IsRightActive 
+                            && !visited.Contains(maze[curCell.X + direction.Item1, 
+                                                      curCell.Y + direction.Item2])) 
+                        {  
+                            return maze[curCell.X + direction.Item1, curCell.Y + direction.Item2]; 
+                        } 
+                        break; 
+                    case (0, 1):
+                        if (!curCell.IsLowerActive
+                            
+                            && !visited.Contains(maze[curCell.X + direction.Item1,
+                                                      curCell.Y + direction.Item2]))
+                        {
+                            return maze[curCell.X + direction.Item1, curCell.Y + direction.Item2];
+                        }
+                        break; 
+                    case (-1, 0):
+                        if (!curCell.IsLeftActive 
+                            && visited.Contains(maze[curCell.X + direction.Item1, 
+                                                     curCell.Y + direction.Item2]))
+                        {
+                            return maze[curCell.X + direction.Item1, curCell.Y + direction.Item2];
+                        }
+                        break;
+                    case (0, -1):
+                        if (!curCell.IsUpperActive 
+                            && visited.Contains(maze[curCell.X + direction.Item1, 
+                                                     curCell.Y + direction.Item2]))
+                        {
+                            return maze[curCell.X + direction.Item1, curCell.Y + direction.Item2];
+                        }
+                        break;
+                }
+            }
+
+            return curCell;
         }
+       
     }
 }
