@@ -16,6 +16,12 @@ export default class MazeStore {
       });
     }
 
+    clearSolution(){
+      runInAction(() => {
+        this.solution = null;
+      });
+    }
+
     async solveMaze() {
       const maze = this.maze;
       if (!maze) {
@@ -24,15 +30,22 @@ export default class MazeStore {
 
       const response = await fetch(`maze/${maze.id}/solve`);
       const data = await response.json();
-      runInAction(() => {
-        if (data) {
-          for (var i = 0; i < data.length; i++) {
-            const solutionCell = data[i];
-            if (solutionCell.x >= 0 && solutionCell.x < maze.board.length && solutionCell.y >= 0 && solutionCell.y < maze.board.length) {
-              maze.board[solutionCell.y][solutionCell.x].isSolution = true;
-            }
-          }
+
+      const mappedSolution = Array(maze.board.length);
+      for (var y = 0; y < maze.board.length; y++) {
+        mappedSolution[y] = Array(maze.board.length);
+        for (var x = 0; x < maze.board.length; x++) {
+          mappedSolution[y][x] = false;
         }
+      }
+
+      for (var i = 0; i < data.length; i++) {
+        const solutionCell = data[i];
+        mappedSolution[solutionCell.y][solutionCell.x] = true;
+      }
+
+      runInAction(() => {
+        this.solution = mappedSolution;
       });
     }
   }

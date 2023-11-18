@@ -10,7 +10,7 @@ export default class AppStore {
       const key = e.code;
   
       const maze = this.mazeStore.maze;
-      if (!maze) {
+      if (!maze || this.mazeStore.solution || this.playerStore.solved) {
         return;
       }
 

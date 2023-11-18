@@ -34,7 +34,7 @@ export default class PlayerStore {
         runInAction(() => {
           this.time += 10;
         });
-      }, 10);
+      }, 1);
     }
 
     stopTime() {

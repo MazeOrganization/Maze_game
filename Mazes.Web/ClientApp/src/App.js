@@ -31,34 +31,38 @@ const App = () => {
     //Write();
 
     return (
-        <Layout>
-            <div style={{ width: '600px', margin: '0 auto', textAlign: 'center' }}>
-                <div id="target" style={{ color: 'white', marginTop: '40px', marginBottom: '40px' }}>'Use  ↑ ↓ → ← or WASD to help parents find their child! Buttons will help you go back to the start, try a new maze or see the solution.'</div>
-                <div style={{ display: 'flex', minWidth: '300px', marginTop: '30px', marginBottom: '10px', justifyContent: 'space-between' }}>
-          <button style={{marginRight: '10px'}} onClick={() => {
-            appStore.playerStore.setUserPosition(0, 0);
-            appStore.playerStore.setSolved(false);
-            appStore.playerStore.stopTime();
-            appStore.playerStore.resetTime();
-          }}>Reset</button>
-          <button style={{marginRight: '10px'}} onClick={() => {
-            appStore.playerStore.setUserPosition(0, 0);
-            appStore.playerStore.setSolved(false);
-            appStore.playerStore.stopTime();
-            appStore.playerStore.resetTime();
-            appStore.mazeStore.fetchMaze();
-          }}>New Maze</button>
-          <button onClick={() => {
-            appStore.mazeStore.solveMaze();
-            appStore.playerStore.stopTime();
-                    }}>Solve</button>
-                </div>
+      <Layout>
+        <div style={{ width: '600px', margin: '0 auto', textAlign: 'center' }}>
+          <div id="target" style={{ color: 'white', marginTop: '40px', marginBottom: '40px' }}>'Use  ↑ ↓ → ← or WASD to help parents find their child! Buttons will help you go back to the start, try a new maze or see the solution.'</div>
+            <div style={{ display: 'flex', minWidth: '300px', marginTop: '30px', marginBottom: '10px', justifyContent: 'space-between' }}>
+              <button style={{marginRight: '10px'}} onClick={() => {
+                appStore.playerStore.setUserPosition(0, 0);
+                appStore.playerStore.setSolved(false);
+                appStore.mazeStore.clearSolution();
+                appStore.playerStore.stopTime();
+                appStore.playerStore.resetTime();
+              }}>Reset</button>
+              <button style={{marginRight: '10px'}} onClick={() => {
+                appStore.playerStore.setUserPosition(0, 0);
+                appStore.playerStore.setSolved(false);
+                appStore.playerStore.stopTime();
+                appStore.playerStore.resetTime();
+                appStore.mazeStore.fetchMaze();
+              }}>New Maze</button>
+              <button onClick={() => {
+                if (appStore.mazeStore.solution || appStore.playerStore.solved) {
+                  return;
+                }
+                appStore.mazeStore.solveMaze();
+                appStore.playerStore.stopTime();
+              }}>Solve</button>
             </div>
-            <Congratulations playerStore={appStore.playerStore} />
+          </div>
+          <Congratulations playerStore={appStore.playerStore} />
         <Routes>
           <Route path="/" element={<Maze appStore={appStore } />} />
-            </Routes>
-            <Time playerStore={appStore.playerStore} />
+        </Routes>
+        <Time playerStore={appStore.playerStore} />
       </Layout>
     );
   };
