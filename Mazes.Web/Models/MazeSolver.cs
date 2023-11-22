@@ -6,98 +6,102 @@ namespace Mazes.Web.Models
 {
     public class MazeSolver
     {
-       public Cell[] GetMazeSolution(Cell[,] maze)
-       {
+        public Cell[] GetMazeSolution(Cell[,] maze)
+        {
             Stack<Cell> path = new Stack<Cell>();
-            var visited = new List<Cell>();
+            var visited = new List<(int, int)>();
 
             Cell curCell = maze[0, 0];
-            visited.Add(curCell);
+            visited.Add((curCell.X, curCell.Y));
             path.Push(curCell);
 
-            while(curCell != maze[maze.GetLength(0) - 1, maze.GetLength(1)-1])
+            while (curCell != maze[maze.GetLength(0) - 1, maze.GetLength(1) - 1])
             {
                 var nextCell = FindNextCell(curCell, maze, visited);
 
-                if(nextCell == curCell)
+                if (nextCell == null)
                 {
-                    nextCell = GoBackToLastIntersection(maze, visited, path, curCell);
+                    GoBackToLastIntersection(maze, visited, path);
+                    nextCell = FindNextCell(path.First(), maze, visited);
                 }
 
-                visited.Add(nextCell);
+                visited.Add((nextCell.X, nextCell.Y));
                 path.Push(nextCell);
                 curCell = nextCell;
             }
-            return path.ToArray();
-       }
-        
-        private Cell GoBackToLastIntersection(Cell[,] maze, List<Cell> visited, Stack<Cell> path, Cell cell)
-        {
-            var curCell = cell;
-            var nextCell = curCell;
+            return path.Reverse().ToArray();
+        }
 
-            while (true)
+        private void GoBackToLastIntersection(Cell[,] maze, List<(int, int)> visited, Stack<Cell> path)
+        {
+            while (path.Count > 0)
             {
-                nextCell = FindNextCell(curCell, maze, visited);
-                if (nextCell == curCell)
+                Cell curCell = path.Pop();
+                Cell nextCell = FindNextCell(curCell, maze, visited);
+
+                if (nextCell != null)
                 {
-                    curCell = path.Pop();
-                }
-                else
-                {
+                    path.Push(curCell);
                     break;
                 }
             }
-            return nextCell;
         }
-        private Cell FindNextCell(Cell curCell, Cell[,] maze, List<Cell> visited)
+        private Cell FindNextCell(Cell curCell, Cell[,] maze, List<(int, int)> visited)
         {
-            (int,int)[] prioritedDirections = {(1,0), (0,1), (-1,0), (0,-1) };
+            (int, int)[] prioritedDirections = { (1, 0), (0, 1), (-1, 0), (0, -1) };
 
-            foreach(var direction in prioritedDirections) 
+            foreach (var direction in prioritedDirections)
             {
+                if (!IsInBounds(curCell.X + direction.Item1,
+                               curCell.Y + direction.Item2,
+                               maze.GetLength(0)))
+                {
+                    continue;
+                }
                 var next = maze[curCell.X + direction.Item1, curCell.Y + direction.Item2];
 
-                switch (direction) 
+                switch (direction)
                 {
-                    case (1, 0): 
-                        if (!curCell.IsRightActive 
-                            && !visited.Contains(maze[curCell.X + direction.Item1, 
-                                                      curCell.Y + direction.Item2])) 
-                        {  
-                            return maze[curCell.X + direction.Item1, curCell.Y + direction.Item2]; 
-                        } 
-                        break; 
+                    case (1, 0):
+                        if (!curCell.IsRightActive
+                            && !next.IsLeftActive
+                            && !visited.Contains((next.X, next.Y)))
+                        {
+                            return next;
+                        }
+                        break;
                     case (0, 1):
                         if (!curCell.IsLowerActive
-                            
-                            && !visited.Contains(maze[curCell.X + direction.Item1,
-                                                      curCell.Y + direction.Item2]))
+                            && !next.IsUpperActive
+                            && !visited.Contains((next.X, next.Y)))
                         {
-                            return maze[curCell.X + direction.Item1, curCell.Y + direction.Item2];
+                            return next;
                         }
-                        break; 
+                        break;
                     case (-1, 0):
-                        if (!curCell.IsLeftActive 
-                            && visited.Contains(maze[curCell.X + direction.Item1, 
-                                                     curCell.Y + direction.Item2]))
+                        if (!curCell.IsLeftActive
+                            && !next.IsRightActive
+                            && !visited.Contains((next.X, next.Y)))
                         {
-                            return maze[curCell.X + direction.Item1, curCell.Y + direction.Item2];
+                            return next;
                         }
                         break;
                     case (0, -1):
-                        if (!curCell.IsUpperActive 
-                            && visited.Contains(maze[curCell.X + direction.Item1, 
-                                                     curCell.Y + direction.Item2]))
+                        if (!curCell.IsUpperActive
+                            && !next.IsLowerActive
+                            && !visited.Contains((next.X, next.Y)))
                         {
-                            return maze[curCell.X + direction.Item1, curCell.Y + direction.Item2];
+                            return next;
                         }
                         break;
                 }
             }
 
-            return curCell;
+            return null;
         }
-       
+        private bool IsInBounds(int x, int y, int size)
+        {
+            return x >= 0 && x < size && y >= 0 && y < size;
+        }
     }
 }

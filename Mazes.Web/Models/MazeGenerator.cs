@@ -1,4 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Mazes.Web.Models
@@ -25,23 +26,34 @@ namespace Mazes.Web.Models
                 }
             }
 
-            Stack<Cell> stack = new Stack<Cell>();
-            List<Cell> visited = new List<Cell>();
-            stack.Push(maze[0, 0]);
-            visited.Add(maze[0, 0]);
+            Stack<Cell> solution = new Stack<Cell>();
+            Stack<(int,int)> visited = new Stack<(int,int)>();
 
-            while (!stack.IsNullOrEmpty())
+            var curCell = maze[0, 0];
+
+            while (visited.Count != maze.Length)
             {
-                var curCell = stack.Pop();
+                var neighbours = FindUnvisitedNeighbors(curCell, visited, maze.GetLength(0));
 
-                var nextCell = GetRandomNeighbor(curCell, maze, visited);
-                if (curCell == nextCell) continue;
+                if (neighbours.Count() == 0)
+                {
+                    curCell = solution.Pop();
+                }
+                else
+                {
+                    visited.Push((curCell.X, curCell.Y));
 
+                    var nextCell = FindRandomNeighbour(neighbours, maze);
+                    ConnectCells(curCell, nextCell);
 
-                ConnectCells(curCell, nextCell);
+                    curCell = nextCell;
+                    visited.Push((curCell.X, curCell.Y));
 
-                visited.Add(nextCell);
-                stack.Push(nextCell);
+                    if(!visited.Contains((maze[0, size - 1].X, maze[0, size - 1].Y)))
+                    {
+                        solution.Push(maze[0, size - 1]);
+                    }
+                }
             }
 
             return new Maze
@@ -52,6 +64,33 @@ namespace Mazes.Web.Models
             };
         }
 
+        private Cell FindRandomNeighbour(List<(int, int)> neighbours, Cell[,] maze)
+        {
+            Random rng = new Random();
+            int n = neighbours.Count;
+            var neighCoord = neighbours[rng.Next(n)];
+            return maze[neighCoord.Item1, neighCoord.Item2];
+        }
+
+        private List<(int,int)> FindUnvisitedNeighbors(Cell cell, Stack<(int,int)> visited, int size)
+        {
+            (int, int)[] directions = { (0, 1), (1, 0), (0, -1), (-1, 0) };
+            var unvisitedNeighbors = new List<(int, int)>();
+
+            foreach (var direction in directions)
+            {
+                var newX = cell.X + direction.Item1;
+                var newY = cell.Y + direction.Item2;
+
+                if (IsInBounds(newX, newY, size)
+                && !visited.Contains((newX, newY)))
+                {
+                    unvisitedNeighbors.Add((newX, newY));
+                }
+            }
+            return unvisitedNeighbors;
+        }
+        
         private void ConnectCells(Cell currentCell, Cell nextCell)
         {
             var direction = (nextCell.X - currentCell.X, nextCell.Y - currentCell.Y);
@@ -74,40 +113,6 @@ namespace Mazes.Web.Models
                     currentCell.IsLeftActive = false;
                     nextCell.IsRightActive = false;
                     break;
-            }
-        }
-
-        private Cell GetRandomNeighbor(Cell cell, Cell[,] maze, List<Cell> visited)
-        {
-            (int, int)[] directions = { (0, 1), (1, 0), (0, -1), (-1, 0)};
-
-            Random random = new Random();
-            Shuffle(directions, random);
-
-            foreach (var direction in directions)
-            {
-                if (IsInBounds(cell.X + direction.Item1,
-                               cell.Y + direction.Item2,
-                               maze.GetLength(0)) 
-                && !visited.Contains(maze[cell.X + direction.Item1, 
-                                     cell.Y + direction.Item2]))
-                {
-                    return maze[cell.X + direction.Item1, 
-                                cell.Y + direction.Item2];
-                }
-            }
-
-            return cell;
-        }
-
-        private void Shuffle<T>(T[] array, Random random)
-        {
-            for (int i = array.Length - 1; i > 0; i--)
-            {
-                int j = random.Next(0, i + 1);
-                T temp = array[i];
-                array[i] = array[j];
-                array[j] = temp;
             }
         }
 

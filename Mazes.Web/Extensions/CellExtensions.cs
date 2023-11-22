@@ -10,7 +10,7 @@ public static class CellExtensions
         for (int i = 0; i < cells.Length; i++)
         {
             var cell = cells[i];
-            result[cell.Y, cell.X] = cell;
+            result[cell.X, cell.Y] = cell;
         }
         return result;
     }

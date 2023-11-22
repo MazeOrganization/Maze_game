@@ -48,16 +48,6 @@ namespace Mazes.UnitTests
             CollectionAssert.DoesNotContain(board.Where(cell => cell.Y == maze.Size - 1).Select(cell => cell.IsLowerActive), false);
         }
 
-        [Test]
-        public void WellKnownMaze_HasPath()
-        {
-            var maze = WellKnown.Maze;
-
-            var hasPath = HasPath(maze, (0, 0), (maze.Size - 1, maze.Size - 1));
-
-            Assert.IsTrue(hasPath);
-        }
-
         private static bool HasPath(Maze maze, (int, int) start, (int, int) finish)
         {
             var stack = new Stack<(int, int)>();

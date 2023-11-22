@@ -20,14 +20,22 @@ namespace Mazes.Web.Controllers
         public MazeFront Get()
         {
             var generator = new MazeGenerator();
+            var newMaze = generator.GenerateMaze(3);
+            _context.Add(newMaze);
+            _context.SaveChangesAsync();
 
-            return _context.Maze.OrderBy(x => Guid.NewGuid().ToString()).First().ToFrontModel();
+            var randomMaze = _context.Maze.OrderBy(x => Guid.NewGuid().ToString()).First();
+            var mazeModel = randomMaze.ToFrontModel();
+            return mazeModel;
         }
 
         [HttpPost]
-        public async Task Create(Maze maze)
+        public async Task Create()
         {
-            _context.Add(maze);
+
+            var generator = new MazeGenerator();
+            var newMaze = generator.GenerateMaze(3);
+            _context.Add(newMaze);
             await _context.SaveChangesAsync();
         }
 
