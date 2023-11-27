@@ -166,4 +166,4 @@ public class MazeSolverTests
     //                    && path[path.Length - 1].Y == maze.Board.Last().Y,
     //                    "Solver did not reach the exit.");
     //}
-}6
+}

@@ -26,33 +26,32 @@ namespace Mazes.Web.Models
                 }
             }
 
-            Stack<Cell> solution = new Stack<Cell>();
-            Stack<(int,int)> visited = new Stack<(int,int)>();
+            HashSet<(int, int)> visited = new HashSet<(int, int)>();
+            Stack<Cell> stack = new Stack<Cell>();
 
             var curCell = maze[0, 0];
+            visited.Add((curCell.X,curCell.Y));
 
             while (visited.Count != maze.Length)
             {
-                var neighbours = FindUnvisitedNeighbors(curCell, visited, maze.GetLength(0));
-
-                if (neighbours.Count() == 0)
+                var neighbours = GetUnvisitedNeighbors(curCell, visited, size);
+                if (neighbours.Count() != 0)
                 {
-                    curCell = solution.Pop();
+                    var neighbourCell = FindRandomNeighbour(neighbours, maze);
+                    stack.Push(neighbourCell);
+                    ConnectCells(curCell, neighbourCell);
+                    curCell = neighbourCell;
+                    visited.Add((curCell.X, curCell.Y));
+                }
+                else if (stack.Count() > 0) 
+                { 
+                    curCell = stack.Pop();
                 }
                 else
                 {
-                    visited.Push((curCell.X, curCell.Y));
-
-                    var nextCell = FindRandomNeighbour(neighbours, maze);
-                    ConnectCells(curCell, nextCell);
-
-                    curCell = nextCell;
-                    visited.Push((curCell.X, curCell.Y));
-
-                    if(!visited.Contains((maze[0, size - 1].X, maze[0, size - 1].Y)))
-                    {
-                        solution.Push(maze[0, size - 1]);
-                    }
+                    var unvisitedCells = GetUnvisitedCells(visited, maze);
+                    var rand = new Random();
+                    curCell = unvisitedCells[rand.Next(0, unvisitedCells.Count())];
                 }
             }
 
@@ -72,7 +71,7 @@ namespace Mazes.Web.Models
             return maze[neighCoord.Item1, neighCoord.Item2];
         }
 
-        private List<(int,int)> FindUnvisitedNeighbors(Cell cell, Stack<(int,int)> visited, int size)
+        private List<(int, int)> GetUnvisitedNeighbors(Cell cell, HashSet<(int, int)> visited, int size)
         {
             (int, int)[] directions = { (0, 1), (1, 0), (0, -1), (-1, 0) };
             var unvisitedNeighbors = new List<(int, int)>();
@@ -90,7 +89,19 @@ namespace Mazes.Web.Models
             }
             return unvisitedNeighbors;
         }
-        
+
+        private List<Cell> GetUnvisitedCells(HashSet<(int,int)> visited, Cell[,] maze)
+        {
+            List<Cell> unvisitedCells = new List<Cell>();
+            foreach (var cell in maze)
+            {
+                if(!visited.Contains((cell.X,cell.Y)))
+                {
+                    unvisitedCells.Add(cell);
+                }
+            }
+            return unvisitedCells;
+        }
         private void ConnectCells(Cell currentCell, Cell nextCell)
         {
             var direction = (nextCell.X - currentCell.X, nextCell.Y - currentCell.Y);
