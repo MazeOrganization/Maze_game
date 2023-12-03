@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import parents from '../images/parents.png';
 import kid from '../images/kid.png';
 
-const MazeRenderer = observer(({ maze, userPosition }) => {
+const MazeRenderer = observer(({ maze, solution, userPosition }) => {
     const renderCells = () => {
       const rows = [];
   
@@ -14,12 +14,12 @@ const MazeRenderer = observer(({ maze, userPosition }) => {
           const cell = maze.board[i][j];
           const cellStyle = {
             borderRight: cell.isRightActive ? '2px solid white' : '0px solid transparent',
-              borderLeft: cell.isLeftActive ? '2px solid white' : '0px solid transparent',
-              borderTop: cell.isUpperActive ? '2px solid white' : '0px solid transparent',
-              borderBottom: cell.isLowerActive ? '2px solid white' : '0px solid transparent',
+            borderLeft: cell.isLeftActive ? '2px solid white' : '0px solid transparent',
+            borderTop: cell.isUpperActive ? '2px solid white' : '0px solid transparent',
+            borderBottom: cell.isLowerActive ? '2px solid white' : '0px solid transparent',
             backgroundImage: cell.x === maze.board.length - 1 && cell.y === maze.board.length - 1 ? `url(${kid})` : 'none',
             backgroundSize: 'contain',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            backgroundColor: solution && solution[cell.y][cell.x] ? 'gold' : 'rgba(0, 0, 0, 0.5)',
             width: '30px',
             height: '30px',
             display: 'inline-block',
@@ -68,6 +68,7 @@ export const Maze = observer((props) => {
       : <MazeRenderer
           userPosition={props.appStore.playerStore.userPosition}
           maze={props.appStore.mazeStore.maze}
+          solution={props.appStore.mazeStore.solution}
         />;
 
   return (

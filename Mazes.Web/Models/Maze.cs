@@ -32,14 +32,14 @@ namespace Mazes.Web.Models
 
         public string BoardData { get; set; } = null!;
 
-        private string SerializeBoard(Cell[] board)
+        private static string SerializeBoard(Cell[] board)
         {
             return JsonSerializer.Serialize(board);
         }
 
-        private Cell[] DeserializeBoard(string boardData)
+        private static Cell[] DeserializeBoard(string boardData)
         {
-            return JsonSerializer.Deserialize<Cell[]>(boardData);
+            return JsonSerializer.Deserialize<Cell[]>(boardData) ?? Array.Empty<Cell>();
         }
     }
 }
