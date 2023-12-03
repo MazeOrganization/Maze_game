@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Mazes.Web.Data;
 using Mazes.Web.Models;
+using System.Drawing;
 
 namespace Mazes.Web.Controllers
 {
@@ -19,11 +20,14 @@ namespace Mazes.Web.Controllers
         [HttpGet]
         public MazeFront Get()
         {
-            var generator = new MazeGenerator();
-            var newMaze = generator.GenerateMaze(3);
-            _context.Add(newMaze);
-            _context.SaveChangesAsync();
-
+            //for(int i = 1; i < 19; i++)
+            //{
+            //    var generator = new MazeGenerator();
+            //    var newMaze = generator.GenerateMaze(20);
+            //    _context.Add(newMaze);
+            //    _context.SaveChangesAsync();
+            //}
+            
             var randomMaze = _context.Maze.OrderBy(x => Guid.NewGuid().ToString()).First();
             var mazeModel = randomMaze.ToFrontModel();
             return mazeModel;
@@ -51,13 +55,21 @@ namespace Mazes.Web.Controllers
         public Cell[]? Solve(string mazeId)
         {
             var maze = _context.Maze.First(x => x.Id == mazeId);
+            var solver = new MazeSolver();
 
-            var solution = new List<Cell>();
-            for (var i = 0; i < maze.Size; i++)
+            Cell[,] newBoard = new Cell[maze.Size, maze.Size];
+
+            // Populate the 2D array
+            for (int i = 0; i < maze.Size; i++)
             {
-                solution.Add(new Cell { X = i, Y = i });
-                solution.Add(new Cell { X = i + 1, Y = i });
+                for (int j = 0; j < maze.Size; j++)
+                {
+                    newBoard[i, j] = maze.Board[i * maze.Size + j];
+                }
             }
+
+            var solution = solver.GetMazeSolution(newBoard);
+           
             return solution.ToArray();
         }
 

@@ -6,23 +6,23 @@ namespace Mazes.Web.Models
 {
     public class MazeSolver
     {
-        public Cell[] GetMazeSolution(Cell[,] maze)
+        public Cell[] GetMazeSolution(Cell[,] board)
         {
             Stack<Cell> path = new Stack<Cell>();
             var visited = new List<(int, int)>();
 
-            Cell curCell = maze[0, 0];
+            Cell curCell = board[0, 0];
             visited.Add((curCell.X, curCell.Y));
             path.Push(curCell);
 
-            while (curCell != maze[maze.GetLength(0) - 1, maze.GetLength(1) - 1])
+            while (curCell != board[board.GetLength(0) - 1, board.GetLength(1) - 1])
             {
-                var nextCell = FindNextCell(curCell, maze, visited);
+                var nextCell = FindNextCell(curCell, board, visited);
 
                 if (nextCell == null)
                 {
-                    GoBackToLastIntersection(maze, visited, path);
-                    nextCell = FindNextCell(path.First(), maze, visited);
+                    GoBackToLastIntersection(board, visited, path);
+                    nextCell = FindNextCell(path.First(), board, visited);
                 }
 
                 visited.Add((nextCell.X, nextCell.Y));

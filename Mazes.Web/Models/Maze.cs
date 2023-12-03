@@ -5,20 +5,31 @@ namespace Mazes.Web.Models
 {
     public class Maze
     {
+        public Maze() { }
+
+        public Maze(string id, int size, Cell[] board)
+        {
+            Id = id;
+            Size = size;
+            Board = board;
+        }
+
         public string Id { get; set; } = null!;
         public int Size { get; set; }
+
         [NotMapped]
         public Cell[] Board
-        { 
-            get 
-            { 
-                return DeserializeBoard(BoardData); 
-            } 
+        {
+            get
+            {
+                return DeserializeBoard(BoardData);
+            }
             set
             {
                 BoardData = SerializeBoard(value);
-            } 
+            }
         }
+
         public string BoardData { get; set; } = null!;
 
         private string SerializeBoard(Cell[] board)
